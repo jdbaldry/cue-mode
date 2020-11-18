@@ -11,9 +11,9 @@
 
 ;; Keyword highlighting.
 (defconst cue-font-lock-keywords
-  (let ((built-in-regex (regexp-opt '("package" "import") 'words)))
+  (let ((keywords-regex (regexp-opt '("package" "import" "null" "true" "false" "for" "in" "if" "let" "div" "mod" "quo" "rem") 'words)))
   (list
-   `(,built-in-regex . font-lock-builtin-face)
+   `(,keywords-regex . font-lock-builtin-face)
    ))
   "Minimal highlighting expressions for Cue major mode")
 
@@ -37,6 +37,9 @@
   (set (make-local-variable 'font-lock-defaults) '(cue-font-lock-keywords))
   (setq major-mode 'cue-mode)
   (setq mode-name "Cue")
+  ;; Cue, like Go, uses tabs.
+  (setq indent-tabs-mode t)
+  (setq-local indent-line-function 'indent-to-left-margin)
   (run-hooks 'cue-mode-hook))
 
 (add-to-list 'auto-mode-alist (cons "\\.cue\\'" 'cue-mode))
