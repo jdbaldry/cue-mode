@@ -10,10 +10,16 @@
   "Keymap for Cue major mode")
 
 ;; Keyword highlighting.
+(defconst cue--identifier-regexp "\\(?:\\#\\|\\#_\\|_\\)?[a-zA-Z[:digit:]]+")
+(defconst cue--field-regexp (concat "\\(" cue--identifier-regexp "\\??:\\)"))
 (defconst cue-font-lock-keywords
-  (let ((keywords-regex (regexp-opt '("package" "import" "null" "true" "false" "for" "in" "if" "let" "div" "mod" "quo" "rem") 'words)))
+  (let (
+        (keywords-regex (regexp-opt '("package" "import" "true" "false" "for" "in" "if" "let" "div" "mod" "quo" "rem") 'words))
+        (type-regex (regexp-opt '("bool" "string" "int" "null" "float" "bytes" "number" "uint" "uint8" "int8" "uint16" "int16" "rune" "uint32" "int32" "uint64" "int64" "uint128" "int128" "float32" "float64") 'words)))
   (list
    `(,keywords-regex . font-lock-builtin-face)
+   `(,type-regex . font-lock-type-face)
+   `(,cue--field-regexp . font-lock-function-name-face)
    ))
   "Minimal highlighting expressions for Cue major mode")
 
