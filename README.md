@@ -6,8 +6,8 @@ Emacs major mode for working with [Cue](https://cuelang.org) files. This mode wa
 
 - Syntax highlighting
 - Indentation
+- Formatting with `cue-format` and `cue-format-before-save`
 
 ## TODO
 
-- Add `cue-format-buffer` function
 - Run `check-doc` against the code
