@@ -4,10 +4,10 @@ Emacs major mode for working with [Cue](https://cuelang.org) files. This mode wa
 
 ## Features
 
-- Very basic keyword highlighting
+- Syntax highlighting
+- Indentation
 
 ## TODO
 
-- Add `indent-line` function
 - Add `cue-format-buffer` function
 - Run `check-doc` against the code
