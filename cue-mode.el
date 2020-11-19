@@ -10,7 +10,7 @@
   "Keymap for Cue major mode")
 
 ;; Keyword highlighting.
-(defconst cue--identifier-regexp "\\(?:\\#\\|\\#_\\|_\\)?[a-zA-Z[:digit:]]+")
+(defconst cue--identifier-regexp "\\(?:\\#\\|\\#_\\|_\\)?[a-zA-Z\$_[:digit:]]+")
 (defconst cue--field-regexp (concat "\\(" cue--identifier-regexp "\\??:\\)"))
 (defconst cue-font-lock-keywords
   (let (
