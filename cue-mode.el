@@ -23,6 +23,46 @@
    ))
   "Minimal highlighting expressions for Cue major mode")
 
+;; Indentation.
+(defun cue-indent-line ()
+  "Indent the current line close to how cuefmt would"
+  (interactive)
+  (beginning-of-line)
+  (if (bobp)
+      ;; First line is never indented.
+      (indent-line-to 0)
+    (let ((no-hint t) indent)
+      ;; If we are looking at the end of a block, decrease the indent.
+      (if (looking-at "\t*[]}]$")
+          (progn
+            (save-excursion
+              (setq indent (- (current-indentation) 2)))
+            ;; Don't go beyond left margin.
+            (if (< indent 0)
+                (setq indent 0)))
+        (save-excursion
+          ;; Iterate backwards until we find an indentation hint.
+          (while no-hint
+            (forward-line -1)
+            ;; If the previous line opened a block, increase the indent.
+            (if (looking-at ".*[{\\[]$")
+                (progn
+                  (setq indent (+ (current-indentation) 2))
+                  (setq no-hint nil))
+              ;; Else, if the previous line was a field, maintain the indent.
+              (if (looking-at "\t*[[:graph:]]")
+                  (progn
+                    (setq indent (current-indentation))
+                    (setq no-hint nil))
+                ;; Else, if we reach the beginning of the file, break.
+                (if (bobp)
+                    (setq no-hint nil)))))))
+      ;; If we set an indent, indent the current line to it.
+      (if indent
+          (indent-line-to indent)
+        ;; Else, set it 0.
+        (indent-line-to 0)))))
+
 ;; Syntax table.
 (defconst cue-mode-syntax-table
   (let ((table (make-syntax-table)))
@@ -41,11 +81,11 @@
   (set-syntax-table cue-mode-syntax-table)
 
   (set (make-local-variable 'font-lock-defaults) '(cue-font-lock-keywords))
+  (set (make-local-variable 'indent-line-function) 'cue-indent-line)
   (setq major-mode 'cue-mode)
   (setq mode-name "Cue")
   ;; Cue, like Go, uses tabs.
   (setq indent-tabs-mode t)
-  (setq-local indent-line-function 'indent-to-left-margin)
   (run-hooks 'cue-mode-hook))
 
 (add-to-list 'auto-mode-alist (cons "\\.cue\\'" 'cue-mode))
