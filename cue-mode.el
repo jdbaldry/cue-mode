@@ -9,6 +9,18 @@
     map)
   "Keymap for Cue major mode")
 
+;; Formatting using `cue fmt`.
+(defun cue-format()
+  (interactive)
+  (shell-command (concat "cue fmt " (buffer-file-name)))
+  (revert-buffer :ignore-auto :noconfirm))
+
+(defun cue-format-before-save ()
+  "Add this to .emacs to run cue on the current buffer when saving:
+\(add-hook 'before-save-hook 'cue-format-before-save)."
+  (interactive)
+  (when (eq major-mode 'cue-mode) (cue-format)))
+
 ;; Keyword highlighting.
 (defconst cue--identifier-regexp "\\(?:\\#\\|\\#_\\|_\\)?[a-zA-Z\$_[:digit:]]+")
 (defconst cue--closed-identifier-regexp "#_?[a-zA-Z\$_[:digit:]]+")
