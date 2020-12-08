@@ -12,6 +12,7 @@
 ;; Formatting using `cue fmt`.
 (defun cue-format()
   (interactive)
+  (write-region (point-min) (point-max) (buffer-file-name))
   (shell-command (concat "cue fmt " (buffer-file-name)))
   (revert-buffer :ignore-auto :noconfirm))
 
