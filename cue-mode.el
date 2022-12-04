@@ -87,6 +87,7 @@
     table)
   "Syntax table for Cue major mode.")
 
+;;;###autoload
 (defun cue-mode ()
   "Major mode for editing Cue (Cuelang) files"
   (interactive)
@@ -103,6 +104,7 @@
   (setq indent-tabs-mode t)
   (run-hooks 'cue-mode-hook))
 
+;;;###autoload
 (add-to-list 'auto-mode-alist (cons "\\.cue\\'" 'cue-mode))
 
 (provide 'cue-mode)
